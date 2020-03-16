@@ -60,7 +60,7 @@ deploy:release:http:
   variables:
     <<: *variables_release
   script:
-    - "curl -u \"${HTTP_UPLOAD_USER:?}:${HTTP_UPLOAD_PASS:?}\" -T ./dist/languagePack_*.zip \"${HTTP_UPLOAD_URL:?}\""
+    - "for f in ./dist/languagePack_*.zip; do curl -u \"${HTTP_UPLOAD_USER:?}:${HTTP_UPLOAD_PASS:?}\" -T \"${f:?}\" \"${HTTP_UPLOAD_URL:?}\"; done"
   cache:
     <<: *cache
   only:
