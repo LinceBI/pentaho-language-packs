@@ -25,7 +25,7 @@ stages:
     - "./.subfloor/"
 
 .regex:
-  - &regex_version "/^\\d+\\.\\d+-\\d+\\.\\d+\\.\\d+$/"
+  - &regex_version "/^v\\d+\\.\\d+-\\d+\\.\\d+\\.\\d+$/"
 
 build:develop:
   stage: "build"
