@@ -1,0 +1,67 @@
+stages:
+  - "build"
+  - "deploy"
+
+.variables: &variables
+  ANT_OPTS: "-Divy.home=${CI_PROJECT_DIR}/.ivy2 -Dsubfloor.resources.dir=${CI_PROJECT_DIR}/.subfloor"
+
+.variables_develop: &variables_develop
+  <<: *variables
+
+.variables_release: &variables_release
+  <<: *variables
+
+.artifacts: &artifacts
+  expire_in: "6 hours"
+  paths:
+    - "./bin/"
+    - "./dist/"
+    - "./lib/"
+
+.cache: &cache
+  key: "${CI_COMMIT_REF_SLUG}"
+  paths:
+    - "./.ivy2/"
+    - "./.subfloor/"
+
+.regex:
+  - &regex_version "/^\\d+\\.\\d+-\\d+\\.\\d+\\.\\d+$/"
+
+build:develop:
+  stage: "build"
+  variables:
+    <<: *variables_develop
+  script:
+    - "ant clean build-language-packs"
+  artifacts:
+    <<: *artifacts
+  cache:
+    <<: *cache
+  except:
+    - *regex_version
+
+build:release:
+  stage: "build"
+  variables:
+    <<: *variables_release
+  script:
+    - "ant clean build-language-packs"
+  artifacts:
+    <<: *artifacts
+  cache:
+    <<: *cache
+  only:
+    - *regex_version
+
+deploy:release:http:
+  stage: "deploy"
+  dependencies:
+    - "build:release"
+  variables:
+    <<: *variables_release
+  script:
+    - "curl -u \"${HTTP_UPLOAD_USER:?}:${HTTP_UPLOAD_PASS:?}\" -T ./dist/languagePack_*.zip \"${HTTP_UPLOAD_URL:?}\""
+  cache:
+    <<: *cache
+  only:
+    - *regex_version
