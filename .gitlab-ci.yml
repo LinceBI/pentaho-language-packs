@@ -60,7 +60,7 @@ deploy:release:http:
   variables:
     <<: *variables_release
   script:
-    - "for f in ./dist/languagePack_*.zip; do curl -u \"${HTTP_UPLOAD_USER:?}:${HTTP_UPLOAD_PASS:?}\" -T \"${f:?}\" \"${HTTP_UPLOAD_URL:?}\"; done"
+    - "for f in ./dist/languagePack_*.zip; do curl -u \"${REPO_RAW_LINCEBI_RW_USER:?}:${REPO_RAW_LINCEBI_RW_PASSWORD:?}\" -T \"${f:?}\" \"${REPO_RAW_LINCEBI_URL:?}/pentaho-language-packs/\"; done"
   cache:
     <<: *cache
   only:
