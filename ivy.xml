@@ -27,7 +27,7 @@
 
 		<!--dependency org="ant-contrib" name="ant-contrib" rev="1.0b3" conf="default->default"/-->
 
-		<dependency org="oopsconsultancy" name="xmltask" rev="1.16" conf="default->default"/>
+		<dependency org="com.oopsconsultancy" name="xmltask" rev="1.16" conf="default->default"/>
 		<dependency org="org.codehaus.jackson" name="jackson-mapper-asl" rev="1.9.12" conf='default->default' />
   </dependencies>
 </ivy-module>
